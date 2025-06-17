@@ -1,0 +1,6 @@
+{
+  "name": "TRW Direct Messages",
+  "description": "A unified direct messaging interface with chat summarization and reply suggestions.",
+  "instructions": "Enter a message and see AI-suggested replies. Click on a pinned message to get a summary of the conversation.",
+  "tags": ["React", "TypeScript", "Jotai", "DaisyUI", "Tailwind CSS"]
+}

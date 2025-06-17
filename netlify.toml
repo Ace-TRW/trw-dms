@@ -1,0 +1,26 @@
+[build]
+  command = "bun install && bun run build"
+  publish = "dist"
+  environment = { NODE_VERSION = "18" }
+
+[build.environment]
+  # Add any build-time environment variables here
+  # VITE_API_URL = "https://api.example.com"
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-Content-Type-Options = "nosniff"
+    X-XSS-Protection = "1; mode=block"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"

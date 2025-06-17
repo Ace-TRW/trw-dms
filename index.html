@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="custom-dark">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TRW Direct Messages</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              background: {
+                primary: "#0a0e17",
+                secondary: "#111827",
+                tertiary: "#1f2937",
+              },
+              stroke: "#374151",
+              accent: {
+                primary: "#f59e0b",
+                muted: "rgba(245, 158, 11, 0.1)",
+              },
+              content: {
+                primary: "#e5e7eb",
+                secondary: "#9ca3af",
+                tertiary: "#6b7280",
+              },
+              status: {
+                online: "#10b981",
+              },
+            },
+            fontFamily: {
+              sans: [
+                "Inter",
+                "-apple-system",
+                "BlinkMacSystemFont",
+                '"Segoe UI"',
+                "Roboto",
+                "sans-serif",
+              ],
+            },
+          },
+        },
+        daisyui: {
+          themes: [
+            {
+              "custom-dark": {
+                primary: "#f59e0b",
+                "primary-focus": "#dc8e0a",
+                "primary-content": "#ffffff",
+                secondary: "#a855f7",
+                accent: "#10b981",
+                neutral: "#1f2937",
+                "base-100": "#0a0e17",
+                "base-200": "#111827",
+                "base-300": "#1f2937",
+                "base-content": "#e5e7eb",
+                info: "#3b82f6",
+                success: "#10b981",
+                warning: "#f59e0b",
+                error: "#ef4444",
+                "--rounded-box": "0.5rem",
+                "--rounded-btn": "0.5rem",
+                "--rounded-badge": "1.9rem",
+                "--animation-btn": "0.25s",
+                "--animation-input": "0.2s",
+                "--btn-text-case": "none",
+                "--btn-focus-scale": "0.95",
+                "--border-btn": "1px",
+                "--tab-border": "1px",
+                "--tab-radius": "0.5rem",
+              },
+            },
+            "dark",
+          ],
+        },
+      };
+    </script>
+    <script type="importmap">
+      {
+        "imports": {
+          "react": "https://esm.sh/react@^19.1.0",
+          "react-dom/": "https://esm.sh/react-dom@^19.1.0/",
+          "react/": "https://esm.sh/react@^19.1.0/",
+          "lucide-react": "https://esm.sh/lucide-react@^0.516.0",
+          "jotai": "https://esm.sh/jotai@^2.12.5",
+          "@google/genai": "https://esm.sh/@google/genai@^1.5.1",
+          "react-daisyui": "https://esm.sh/react-daisyui@^5.0.5",
+          "tailwind-merge": "https://esm.sh/tailwind-merge@^3.3.1",
+          "react-cool-dimensions": "https://esm.sh/react-cool-dimensions@^3.0.1",
+          "@vitejs/plugin-react": "https://esm.sh/@vitejs/plugin-react@^4.5.2",
+          "vite": "https://esm.sh/vite@^6.3.5"
+        }
+      }
+    </script>
+    <link rel="stylesheet" href="/index.css" />
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/index.tsx"></script>
+  </body>
+</html>
