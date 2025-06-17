@@ -1,9 +1,9 @@
 [build]
   command = "bun install && bun run build"
   publish = "dist"
-  environment = { NODE_VERSION = "18" }
 
 [build.environment]
+  NODE_VERSION = "18"
   # Add any build-time environment variables here
   # VITE_API_URL = "https://api.example.com"
 
