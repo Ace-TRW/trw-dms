@@ -38,6 +38,49 @@ export const MOCK_USERS: User[] = [
     status: "online",
     lastSeen: "Online",
   },
+  // Additional users without conversations
+  {
+    _id: "user_5",
+    username: "Emma Wilson",
+    avatarUrl: "https://picsum.photos/seed/emma/100/100",
+    status: "online",
+    lastSeen: "Online",
+  },
+  {
+    _id: "user_6",
+    username: "Frank Castle",
+    avatarUrl: "https://picsum.photos/seed/frank/100/100",
+    status: "away",
+    lastSeen: "Away",
+  },
+  {
+    _id: "user_7",
+    username: "Grace Hopper",
+    avatarUrl: "https://picsum.photos/seed/grace/100/100",
+    status: "offline",
+    lastSeen: "Last seen 1 hour ago",
+  },
+  {
+    _id: "user_8",
+    username: "Henry Ford",
+    avatarUrl: "https://picsum.photos/seed/henry/100/100",
+    status: "online",
+    lastSeen: "Online",
+  },
+  {
+    _id: "user_9",
+    username: "Isabella Jones",
+    avatarUrl: "https://picsum.photos/seed/isabella/100/100",
+    status: "offline",
+    lastSeen: "Last seen 3 hours ago",
+  },
+  {
+    _id: "user_10",
+    username: "Jack Sparrow",
+    avatarUrl: "https://picsum.photos/seed/jack/100/100",
+    status: "online",
+    lastSeen: "Online",
+  },
 ];
 
 export const MOCK_CHANNELS: Channel[] = [

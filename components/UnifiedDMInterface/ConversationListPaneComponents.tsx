@@ -3,7 +3,7 @@ import React from 'react';
 import { twMerge } from 'tailwind-merge';
 import type { Channel } from '../../types';
 import { UserIcon } from '../UserIcon';
-import { MoreHorizontal, UserPlus, Search, Bookmark, Ban } from 'lucide-react';
+import { MoreHorizontal, UserPlus, Search, Bookmark, Ban, MessageSquarePlus } from 'lucide-react';
 import { Button, Input } from 'react-daisyui';
 import { useAtom } from 'jotai';
 import { conversationSearchQueryAtom } from '../../state/jotaiAtoms';
@@ -177,19 +177,31 @@ export const SavedMessagesItem: React.FC = () => {
   );
 };
 
-export const ConversationListHeader: React.FC = () => {
+interface ConversationListHeaderProps {
+  onNewMessage?: () => void;
+}
+
+export const ConversationListHeader: React.FC<ConversationListHeaderProps> = ({ onNewMessage }) => {
   const [showMenu, setShowMenu] = React.useState(false);
   
   return (
     <div className="p-4 border-b border-stroke flex items-center justify-between">
       <h1 className="text-xl font-bold text-content-primary">Messages</h1>
-      <div className="relative">
+      <div className="flex items-center gap-2">
         <button
-          onClick={() => setShowMenu(!showMenu)}
+          onClick={onNewMessage}
           className="p-2 rounded-lg hover:bg-background-tertiary transition-colors"
+          aria-label="New message"
         >
-          <MoreHorizontal size={20} className="text-content-secondary" />
+          <MessageSquarePlus size={20} className="text-content-secondary" />
         </button>
+        <div className="relative">
+          <button
+            onClick={() => setShowMenu(!showMenu)}
+            className="p-2 rounded-lg hover:bg-background-tertiary transition-colors"
+          >
+            <MoreHorizontal size={20} className="text-content-secondary" />
+          </button>
         
         {showMenu && (
           <>
@@ -211,6 +223,7 @@ export const ConversationListHeader: React.FC = () => {
             </div>
           </>
         )}
+        </div>
       </div>
     </div>
   );
