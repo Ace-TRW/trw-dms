@@ -25,6 +25,7 @@
       "@/*": ["./*"]
     }
   },
-  "include": ["."],
+  "include": ["**/*.ts", "**/*.tsx"],
+  "exclude": ["node_modules", "dist", "*.config.ts", "*.config.js"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
