@@ -1,12 +1,6 @@
 import React, { useState, useEffect } from "react";
 // Removed observer from mobx-react as it's not strictly needed if user/channel are just props
-import {
-  X,
-  Image,
-  FileText,
-  Link as LinkIcon,
-  Pin,
-} from "lucide-react"; // Renamed Link to LinkIcon
+import { X, Image, FileText, Link as LinkIcon, Pin } from "lucide-react"; // Renamed Link to LinkIcon
 import { twMerge } from "tailwind-merge";
 import { Username } from "../Username";
 import { UserIcon } from "../UserIcon";
@@ -20,6 +14,7 @@ import {
   MOCK_SHARED_MEDIA_IMAGES,
   MOCK_SHARED_FILES,
   MOCK_SHARED_LINKS,
+  MOCK_PINNED_MESSAGES,
 } from "../../constants";
 
 interface UserInfoPanelProps {
@@ -187,6 +182,39 @@ const LinksTab: React.FC = () => {
   );
 };
 
+const PinnedMessagesTab: React.FC = () => {
+  if (MOCK_PINNED_MESSAGES.length === 0) {
+    return (
+      <div className="text-center py-8">
+        <Pin
+          size={32}
+          strokeWidth={1}
+          className="mx-auto mb-2 text-content-tertiary"
+        />
+        <p className="text-sm text-content-secondary">No pinned messages</p>
+      </div>
+    );
+  }
+
+  return (
+    <div className="flex flex-col gap-3">
+      {MOCK_PINNED_MESSAGES.map((item) => (
+        <div key={item.id} className="rounded-lg bg-background-tertiary p-3">
+          <div className="mb-1 flex items-center gap-2">
+            <Pin size={14} className="text-accent-primary" />
+            <p className="text-xs font-semibold text-accent-primary uppercase">
+              Pinned
+            </p>
+          </div>
+          <p className="text-[15px] font-normal text-content-primary">
+            {item.text}
+          </p>
+        </div>
+      ))}
+    </div>
+  );
+};
+
 export const UserInfoPanel: React.FC<UserInfoPanelProps> = ({
   user,
   channel: _channel,
@@ -195,9 +223,9 @@ export const UserInfoPanel: React.FC<UserInfoPanelProps> = ({
   isPinned = false,
   onPinToggle,
 }) => {
-  const [activeTab, setActiveTab] = useState<"images" | "files" | "links">(
-    "images"
-  );
+  const [activeTab, setActiveTab] = useState<
+    "images" | "files" | "links" | "pins"
+  >("images");
   const [showPinTooltip, setShowPinTooltip] = useState(false);
 
   // Show onboarding tooltip on first open
@@ -212,9 +240,11 @@ export const UserInfoPanel: React.FC<UserInfoPanelProps> = ({
   const imagesTabId = "tab-images";
   const filesTabId = "tab-files";
   const linksTabId = "tab-links";
+  const pinnedSummaryTabId = "tab-pinned-summary";
   const imagesPanelId = "panel-images";
   const filesPanelId = "panel-files";
   const linksPanelId = "panel-links";
+  const pinnedSummaryPanelId = "panel-pinned-summary";
 
   return (
     <div
@@ -302,6 +332,13 @@ export const UserInfoPanel: React.FC<UserInfoPanelProps> = ({
           isActive={activeTab === "links"}
           onClick={() => setActiveTab("links")}
         />
+        <TabButton
+          id={pinnedSummaryTabId}
+          ariaControls={pinnedSummaryPanelId}
+          label="Pins"
+          isActive={activeTab === "pins"}
+          onClick={() => setActiveTab("pins")}
+        />
       </div>
 
       {/* Tab Content */}
@@ -334,6 +371,16 @@ export const UserInfoPanel: React.FC<UserInfoPanelProps> = ({
             tabIndex={0}
           >
             <LinksTab />
+          </div>
+        )}
+        {activeTab === "pins" && (
+          <div
+            role="tabpanel"
+            id={pinnedSummaryPanelId}
+            aria-labelledby={pinnedSummaryTabId}
+            tabIndex={0}
+          >
+            <PinnedMessagesTab />
           </div>
         )}
       </div>
