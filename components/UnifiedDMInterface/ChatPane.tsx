@@ -1,7 +1,7 @@
 
 import React, { useRef, useEffect } from "react";
 import { twMerge } from 'tailwind-merge'; // Added import for twMerge
-import { ChevronLeft, Info, Bell } from "lucide-react";
+import { ChevronLeft, Info } from "lucide-react";
 import { Button } from "react-daisyui";
 import { UserIcon } from "../UserIcon";
 import { Username } from "../Username";
@@ -22,9 +22,6 @@ interface ChatPaneProps {
   onBack: () => void;
   showUserPanel: boolean;
   setShowUserPanel: (show: boolean) => void;
-  notificationFeedCollapsed?: boolean;
-  onToggleFeed?: () => void;
-  notificationUnreadCount?: number;
 }
 
 export const ChatPane: React.FC<ChatPaneProps> = ({
@@ -33,9 +30,6 @@ export const ChatPane: React.FC<ChatPaneProps> = ({
     onBack,
     showUserPanel,
     setShowUserPanel,
-    notificationFeedCollapsed = false,
-    onToggleFeed,
-    notificationUnreadCount = 0,
   }) => {
     const openDialog = useOpenDialog();
     // Explicitly type the destructured atom state and setter
@@ -116,32 +110,15 @@ export const ChatPane: React.FC<ChatPaneProps> = ({
                 </div>
               </div>
 
-              <div className="flex items-center gap-1">
-                {isDesktopView && onToggleFeed && (
-                  <button
-                    onClick={onToggleFeed}
-                    className={twMerge(
-                      "p-2 rounded-lg transition-colors relative",
-                      !notificationFeedCollapsed ? "bg-background-tertiary" : "hover:bg-background-tertiary"
-                    )}
-                  >
-                    <Bell size={18} className="text-content-secondary" />
-                    {/* Show badge only if there are unread notifications and feed is collapsed */}
-                    {notificationUnreadCount > 0 && notificationFeedCollapsed && (
-                      <span className="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full" />
-                    )}
-                  </button>
+              <button
+                onClick={() => setShowUserPanel(!showUserPanel)}
+                className={twMerge(
+                  "p-2 rounded-lg transition-colors",
+                  showUserPanel ? "bg-background-tertiary" : "hover:bg-background-tertiary"
                 )}
-                <button
-                  onClick={() => setShowUserPanel(!showUserPanel)}
-                  className={twMerge(
-                    "p-2 rounded-lg transition-colors",
-                    showUserPanel ? "bg-background-tertiary" : "hover:bg-background-tertiary"
-                  )}
-                >
-                  <Info size={18} className="text-content-secondary" />
-                </button>
-              </div>
+              >
+                <Info size={18} className="text-content-secondary" />
+              </button>
             </div>
 
             <div

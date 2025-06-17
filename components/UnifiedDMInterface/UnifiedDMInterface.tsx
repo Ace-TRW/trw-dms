@@ -7,16 +7,13 @@ import { MessageCircle } from "lucide-react";
 import { useDesktopView } from "../../hooks/useDevice"; 
 import { ConversationListPane } from "./ConversationListPane";
 import { ChatPane } from "./ChatPane";
-import { NotificationFeed } from "./NotificationFeed";
 import { UserInfoPanel } from "./UserInfoPanel";
 import { appClient } from "../../state/appClient";
 import type { User, Channel } from "../../types";
 import { 
   selectedConversationIdAtom, 
   showUserPanelAtom,
-  showNotificationFeedAtom,
-  pinnedUserInfoPanelAtom,
-  notificationFeedCollapsedAtom 
+  pinnedUserInfoPanelAtom
 } from "../../state/jotaiAtoms"; 
 
 export const UnifiedDMInterface: React.FC = () => {
@@ -25,9 +22,7 @@ export const UnifiedDMInterface: React.FC = () => {
   const [selectedConversationId, setSelectedConversationId] = useAtom(selectedConversationIdAtom);
   const [showUserPanel, setShowUserPanel] = useAtom(showUserPanelAtom);
   const [pinnedUserPanel, setPinnedUserPanel] = useAtom(pinnedUserInfoPanelAtom);
-  const [notificationFeedCollapsed, setNotificationFeedCollapsed] = useAtom(notificationFeedCollapsedAtom);
   
-  const [notificationUnreadCount, setNotificationUnreadCount] = useState(3); // Mock unread count
   const [currentChannel, setCurrentChannel] = useState<Channel | undefined>(undefined);
   const [currentUser, setCurrentUser] = useState<User | undefined>(undefined);
   const [previousConversationId, setPreviousConversationId] = useState<string | null>(null);
@@ -65,18 +60,11 @@ export const UnifiedDMInterface: React.FC = () => {
     setShowUserPanel(false); 
   }, [setSelectedConversationId, setShowUserPanel]);
   
-  const handleToggleFeed = useCallback((): void => {
-    const newValue = !notificationFeedCollapsed;
-    setNotificationFeedCollapsed(newValue);
-    localStorage.setItem('notificationFeedCollapsed', String(newValue));
-  }, [notificationFeedCollapsed, setNotificationFeedCollapsed]);
-
   const showMasterPane = isDesktopView || !selectedConversationId;
   const showDetailPane = isDesktopView || selectedConversationId;
   
-  // Determine what to show in the third pane
-  // Always show the third pane container in desktop view, but control what's inside
-  const showThirdPane = isDesktopView;
+  // Show third pane only when user panel is open in desktop view
+  const showThirdPane = isDesktopView && showUserPanel;
   
   return (
     <div className="flex h-full bg-background-primary"> 
@@ -103,9 +91,6 @@ export const UnifiedDMInterface: React.FC = () => {
                 onBack={handleBack}
                 showUserPanel={showUserPanel}
                 setShowUserPanel={setShowUserPanel}
-                notificationFeedCollapsed={notificationFeedCollapsed}
-                onToggleFeed={handleToggleFeed}
-                notificationUnreadCount={notificationUnreadCount}
               />
           </div>
         ) : isDesktopView && !selectedConversationId ? ( 
@@ -120,31 +105,17 @@ export const UnifiedDMInterface: React.FC = () => {
         ) : null}
       </div>
       
-      {/* Third Pane - Either Notification Feed or User Info Panel */}
-      {showThirdPane && (
+      {/* Third Pane - User Info Panel */}
+      {showThirdPane && currentUser && currentChannel && (
         <div className="w-[380px] flex-shrink-0 relative">
-          {/* Notification Feed (default) */}
-          {!notificationFeedCollapsed && !showUserPanel && (
-            <NotificationFeed 
-              onClose={() => {
-                setNotificationFeedCollapsed(true);
-                localStorage.setItem('notificationFeedCollapsed', 'true');
-              }} 
-              onUnreadCountChange={setNotificationUnreadCount}
-            />
-          )}
-          
-          {/* User Info Panel (temporary override when opened) */}
-          {showUserPanel && currentUser && currentChannel && (
-            <UserInfoPanel
-              user={currentUser}
-              channel={currentChannel}
-              isOpen={showUserPanel}
-              onClose={() => setShowUserPanel(false)}
-              isPinned={pinnedUserPanel}
-              onPinToggle={() => setPinnedUserPanel(!pinnedUserPanel)}
-            />
-          )}
+          <UserInfoPanel
+            user={currentUser}
+            channel={currentChannel}
+            isOpen={showUserPanel}
+            onClose={() => setShowUserPanel(false)}
+            isPinned={pinnedUserPanel}
+            onPinToggle={() => setPinnedUserPanel(!pinnedUserPanel)}
+          />
         </div>
       )}
     </div>
